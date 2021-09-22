@@ -12,8 +12,9 @@ namespace Entidad
         {
 
         }
-        public LiquidacionIncapacidad(string nombre,string apellido,string responsable,decimal salarioDevengando,decimal  salarioDiario,int dias)
+        public LiquidacionIncapacidad(int codigo,string nombre,string apellido,string responsable,decimal salarioDevengando,decimal  salarioDiario,int dias)
         {
+            Codigo = codigo;
             Nombre = nombre;
             Apellido = apellido;
             Responsable = responsable;

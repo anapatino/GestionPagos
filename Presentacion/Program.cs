@@ -14,8 +14,7 @@ namespace Presentacion
                 int opcion = Menu();
                 switch (opcion)
                 {
-                    case 1:var persona = RegistrarDatos();
-                        ConsultarRegistro( persona);
+                    case 1:Guardar();
                         break;
                     case 2: seguir = 'N';
                         break;
@@ -39,14 +38,25 @@ namespace Presentacion
             } while (opcion < 1 && opcion > 2);
             return opcion;
         }
-       
+        public static void Guardar()
+        {
+            Console.Clear();
+            Console.WriteLine("------------Registro--------------");
+            Console.WriteLine();
+            var persona = RegistrarDatos();
+            string mensaje = liquidacionService.Guarda(persona);
+            Console.WriteLine($"   {mensaje}");
+            Console.Write("          Pulse una tecla para salir "); Console.ReadKey();
+        }
+
+
         public static LiquidacionIncapacidad RegistrarDatos()
         {
             Console.Clear();
             LiquidacionIncapacidad persona;
             string nombre, apellido, responsable="";
             decimal salarioDevengando, salarioDiario,salarioMinimo= (decimal)908.526;
-            int dias;
+            int dias,codigoLiquidacion;
 
             Console.Write("Nombre               : ");nombre = Console.ReadLine();
             Console.Write("Apellido             : ");apellido = Console.ReadLine();
@@ -56,17 +66,20 @@ namespace Presentacion
             } while (salarioDevengando<salarioMinimo);
             Console.Write("Salario Diario       : ");salarioDiario = decimal.Parse(Console.ReadLine());
             Console.Write("Dias de Incapacidad  : ");dias = int.Parse(Console.ReadLine());
+            Random codigo = new Random();
+            codigoLiquidacion=(codigo.Next(100, 999));
 
-            if (dias<2)
+
+            if (dias<=2)
             {
                 responsable ="EMPLEADOR";
             }
             else if ((dias >3 )&& (dias < 90))
             {
-                responsable = "EPS";
+                responsable ="EPS";
             }
 
-            persona = new(nombre, apellido, responsable, salarioDevengando, salarioDiario, dias);
+            persona = new(codigoLiquidacion,nombre, apellido, responsable, salarioDevengando, salarioDiario, dias);
             persona.CalcularLiquidacion();
          
             return persona;
