@@ -3,7 +3,8 @@ using Datos;
 using Entidad;
 namespace Logica
 {
-    public class Class1
+    public class LiquidacionService
     {
+       
     }
 }

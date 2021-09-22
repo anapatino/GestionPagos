@@ -5,6 +5,7 @@ namespace Presentacion
 {
     class Program
     {
+        private static readonly LiquidacionService liquidacionService = new LiquidacionService();
         static void Main(string[] args)
         {
             char seguir = 'S';
@@ -13,8 +14,8 @@ namespace Presentacion
                 int opcion = Menu();
                 switch (opcion)
                 {
-                    case 1: var persona=RegistrarDatos();
-                            ConsultarRegistro(persona);
+                    case 1:var persona = RegistrarDatos();
+                        ConsultarRegistro( persona);
                         break;
                     case 2: seguir = 'N';
                         break;
@@ -38,10 +39,12 @@ namespace Presentacion
             } while (opcion < 1 && opcion > 2);
             return opcion;
         }
+       
         public static LiquidacionIncapacidad RegistrarDatos()
         {
             Console.Clear();
-            string nombre, apellido, responsable;
+            LiquidacionIncapacidad persona;
+            string nombre, apellido, responsable="";
             decimal salarioDevengando, salarioDiario,salarioMinimo= (decimal)908.526;
             int dias;
 
@@ -57,20 +60,16 @@ namespace Presentacion
             if (dias<2)
             {
                 responsable ="EMPLEADOR";
-                LiquidacionIncapacidad empleado = new Empleador( nombre, apellido, responsable,salarioDevengando, salarioDiario,dias);
-                empleado.CalcularLiquidacion();
-                return empleado;
-                
             }
             else if ((dias >3 )&& (dias < 90))
             {
                 responsable = "EPS";
-                LiquidacionIncapacidad eps = new Eps(nombre, apellido, responsable, salarioDevengando, salarioDiario, dias);
-                eps.CalcularLiquidacion();
-                return eps;
-
             }
-            return null;
+
+            persona = new(nombre, apellido, responsable, salarioDevengando, salarioDiario, dias);
+            persona.CalcularLiquidacion();
+         
+            return persona;
         }
 
         public static void ConsultarRegistro(LiquidacionIncapacidad persona)

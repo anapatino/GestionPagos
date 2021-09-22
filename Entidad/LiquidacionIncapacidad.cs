@@ -2,11 +2,11 @@
 
 namespace Entidad
 {
-    public abstract class LiquidacionIncapacidad
+    public class LiquidacionIncapacidad
     {
         private string nombre, apellido,responsable;
         private decimal salarioDevengando,salarioDiario,valorLiquidado,valorNoPercibido,tarifa,valorIncapacidad;
-        private int diasIncapacidad;
+        private int diasIncapacidad,codigo;
 
         public LiquidacionIncapacidad()
         {
@@ -24,6 +24,7 @@ namespace Entidad
             ValorNoPercibido = ValorNoPercibido;
             Tarifa = tarifa;
             ValorIncapacidad = valorIncapacidad;
+            Codigo = codigo;
 
         }
 
@@ -37,6 +38,7 @@ namespace Entidad
         public decimal ValorNoPercibido { get; set; }
         public decimal Tarifa { get; set; }
         public decimal ValorIncapacidad { get; set; }
+        public int Codigo { get; set; }
 
         public void CalcularLiquidacion()
         {
@@ -53,7 +55,22 @@ namespace Entidad
             ValorIncapacidad = ValorNoPercibido * (Tarifa / 100);
         }
 
-        public abstract void CalcularTarifa();
+        public  void CalcularTarifa()
+        {
+            if (DiasIncapacidad <= 15)
+            {
+                Tarifa = (decimal)66.66;
+
+            }
+            else if ((DiasIncapacidad > 15) && (DiasIncapacidad <= 90))
+            {
+                Tarifa = (decimal)60;
+            }
+            else
+            {
+                Tarifa = 0;
+            }
+        }
       
     }
 }
